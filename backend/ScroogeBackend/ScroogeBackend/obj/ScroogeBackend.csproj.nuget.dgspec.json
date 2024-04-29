@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj": {}
+    "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj": {}
   },
   "projects": {
-    "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj": {
+    "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
+        "projectUniqueName": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
         "projectName": "ScroogeBackend",
-        "projectPath": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
+        "projectPath": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
         "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-        "outputPath": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\obj\\",
+        "outputPath": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

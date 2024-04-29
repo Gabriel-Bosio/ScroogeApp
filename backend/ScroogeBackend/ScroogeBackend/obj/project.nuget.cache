@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9kzLxitBv3YtGhrsUNYuKfxKNWa9SRnixI3Paaf6c6Y0h2dL15GbHzTdBzB+fB5uudlbYKF9dhSeVPYi8Q2gsg==",
+  "dgSpecHash": "nZkXqhd7oOkzbwCqoTxj37xvRKWdQOWB6hizKGMOuJ/UmQo/HwDwGF58UsTi7h+bjSerIHRyslfMfkmYtLbscg==",
   "success": true,
-  "projectFilePath": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
+  "projectFilePath": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

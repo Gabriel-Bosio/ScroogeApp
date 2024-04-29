@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\ScroogeBackend",
+    "\\backend\\ScroogeBackend\\ScroogeBackend",
+    "\\backend\\ScroogeBackend\\ScroogeBackend\\Aplicacao",
+    "\\backend\\ScroogeBackend\\ScroogeBackend\\Aplicacao\\Controllers",
+    "\\frontend"
+  ],
+  "SelectedNode": "\\backend\\ScroogeBackend\\ScroogeBackend\\Aplicacao\\Controllers\\CategoriaGastoController.cs",
+  "PreviewInSolutionExplorer": false
+}

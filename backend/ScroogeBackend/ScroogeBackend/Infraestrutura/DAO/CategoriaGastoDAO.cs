@@ -8,7 +8,7 @@ using ScroogeBackend.Infraestrutura.DTO;
 namespace ScroogeBackend.Infraestrutura.DAO;
 public class CategoriaGastoDAO
 {
-    private readonly string _connectionString = @"Data Source=C:\Workspace\EngDeSoftware2\Scrooge.db";
+    private readonly string _connectionString = @"Data Source=.....\Scrooge.db";
 
 
     public int inserir(string descricao, double? limiteCategoria, bool removivel = true)
