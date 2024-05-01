@@ -6,110 +6,146 @@ using System.Linq;
 using ScroogeBackend.Infraestrutura.DTO;
 
 namespace ScroogeBackend.Infraestrutura.DAO;
-public class CategoriaGastoDAO
+public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
 {
-    private readonly string _connectionString = @"Data Source=.....\Scrooge.db";
-
-
-    public int inserir(string descricao, double? limiteCategoria, bool removivel = true)
+    public override int inserir(CategoriaGastoDTO novaCategoria)
     {
-        using (var connection = new SQLiteConnection(_connectionString))
+        try
         {
-            connection.Open();
-            var command = connection.CreateCommand();
-            command.CommandText = @"
-                    INSERT INTO CategoriaGasto (descricao, limiteCategoria, removivel)
-                    VALUES (@descricao, @limiteCategoria, @removivel)";
-            command.Parameters.AddWithValue("@descricao", descricao);
-            command.Parameters.AddWithValue("@limiteCategoria", limiteCategoria ?? 0);
-            command.Parameters.AddWithValue("@removivel", removivel ? 1 : 0);
-            command.ExecuteNonQuery();
-
-            command.CommandText = "SELECT last_insert_rowid()";
-            return Convert.ToInt32(command.ExecuteScalar());
-        }
-    }
-
-    public CategoriaGastoDTO obterPorId(int id)
-    {
-        using (var connection = new SQLiteConnection(_connectionString))
-        {
-            connection.Open();
-            var command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM CategoriaGasto WHERE id = @id";
-            command.Parameters.AddWithValue("@id", id);
-
-            using (var reader = command.ExecuteReader())
+            using (var connection = new SQLiteConnection(_connectionString))
             {
-                if (reader.Read())
-                {
-                    return new CategoriaGastoDTO
-                    {
-                        id = reader.GetInt32(0),
-                        descricao = reader.GetString(1),
-                        limiteCategoria = reader.IsDBNull(2) ? null : (double?)reader.GetDouble(2),
-                        removivel = reader.GetInt32(3) == 1
-                    };
-                }
-                else
-                {
-                    return null;
-                }
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+                    INSERT INTO CategoriaGasto (descricao, limiteCategoria, removivel)
+                    VALUES (@descricao, @limiteCategoria, @removivel);";
+                command.Parameters.AddWithValue("@descricao", novaCategoria.descricao);
+                command.Parameters.AddWithValue("@limiteCategoria", novaCategoria.limiteCategoria ?? 0);
+                command.Parameters.AddWithValue("@removivel", novaCategoria.removivel ? 1 : 0);
+                command.ExecuteNonQuery();
+
+                command.CommandText = "SELECT last_insert_rowid()";
+                return Convert.ToInt32(command.ExecuteScalar());
             }
         }
-    }
-
-    public void atualizarPorId(int id, double limite)
-    {
-        using (var connection = new SQLiteConnection(_connectionString))
+        catch (Exception ex) 
         {
-            connection.Open();
-            var command = connection.CreateCommand();
-            command.CommandText = "UPDATE CategoriaGasto SET limiteCategoria = @limite WHERE id = @id";
-            command.Parameters.AddWithValue("@limite", limite);
-            command.Parameters.AddWithValue("@id", id);
-            command.ExecuteNonQuery();
+            throw ex;
         }
     }
 
-    public void deletarPorId(int id)
+    public override void atualizarPorId(int id, CategoriaGastoDTO categoriaAlterada)
     {
-        using (var connection = new SQLiteConnection(_connectionString))
+        try
         {
-            connection.Open();
-            var command = connection.CreateCommand();
-            command.CommandText = @"
-                    DELETE FROM CategoriaGasto WHERE id = @id";
-            command.Parameters.AddWithValue("@id", id);
-            command.ExecuteNonQuery();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "UPDATE CategoriaGasto SET limiteCategoria = @limite, descricao = @descricao WHERE id = @id";
+                command.Parameters.AddWithValue("@limite", categoriaAlterada.limiteCategoria);
+                command.Parameters.AddWithValue("@descricao", categoriaAlterada.descricao);
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
+            }
+        }
+        catch(Exception ex)
+        {
+            throw ex;
         }
     }
 
-    public List<CategoriaGastoDTO> obterTodos()
+    public override CategoriaGastoDTO obterPorId(int id)
+    {
+        try
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM CategoriaGasto WHERE id = @id";
+                command.Parameters.AddWithValue("@id", id);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new CategoriaGastoDTO
+                        {
+                            id = reader.GetInt32(0),
+                            descricao = reader.GetString(2),
+                            limiteCategoria = reader.IsDBNull(3) ? null : (double?)reader.GetDouble(3),
+                            removivel = reader.GetBoolean(4)
+                        };
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        } catch (Exception ex) 
+        {
+            throw ex;
+        }
+    }
+
+    public override List<CategoriaGastoDTO> obterTodos()
     {
         List<CategoriaGastoDTO> categorias = new List<CategoriaGastoDTO>();
 
-        using (var connection = new SQLiteConnection(_connectionString))
+        try
         {
-            connection.Open();
-            var command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM CategoriaGasto";
-
-            using (var reader = command.ExecuteReader())
+            using (var connection = new SQLiteConnection(_connectionString))
             {
-                while (reader.Read())
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM CategoriaGasto";
+
+                using (var reader = command.ExecuteReader())
                 {
-                    categorias.Add(new CategoriaGastoDTO
+                    while (reader.Read())
                     {
-                        id = reader.GetInt32(0),
-                        descricao = reader.GetString(1),
-                        limiteCategoria = reader.IsDBNull(2) ? null : (double?)reader.GetDouble(2),
-                        removivel = reader.GetInt32(3) == 1
-                    });
+                        categorias.Add(new CategoriaGastoDTO
+                        {
+                            id = reader.GetInt32(0),
+                            descricao = reader.GetString(2),
+                            limiteCategoria = reader.IsDBNull(3) ? null : (double?)reader.GetDouble(3),
+                            removivel = reader.GetBoolean(4)
+                        });
+                    }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
         }
 
         return categorias;
     }
+
+
+    public override void deletarPorId(int id)
+    {
+        try
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+                    DELETE FROM CategoriaGasto WHERE id = @id";
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        
+    }
+
+    
 }

@@ -8,40 +8,76 @@ using ScroogeBackend.Infraestrutura.DTO;
 
 namespace ScroogeBackend.Dominio
 {
-    internal class CategoriaGasto : CategoriaGastoDTO
+    internal class CategoriaGasto
     {
-        public CategoriaGasto(string descricao, double? limiteCategoria, bool removivel = true)
+        private CategoriaGastoDAO conexao;
+        public CategoriaGasto() 
         {
-            this.descricao = descricao;
-            this.limiteCategoria = limiteCategoria;
-            this.removivel = removivel;
+            conexao = new CategoriaGastoDAO();
         }
-        public CategoriaGasto(CategoriaGastoDTO novaCategoria)
+        public int inserirCategoria(CategoriaGastoDTO novaCategoria)
         {
-            this.descricao = novaCategoria.descricao;
-            this.limiteCategoria = novaCategoria.limiteCategoria;
-            this.removivel = novaCategoria.removivel;
-        }
-
-        public bool alterarLimite(double limite)
-        {
-            this.limiteCategoria = limite;
-
-            return true;
-        }
-
-        public int inserirCategoria()
-        {
-            CategoriaGastoDAO insercao = new CategoriaGastoDAO();
             int idRetorno;
             try
             {
-                idRetorno = insercao.inserir(descricao, limiteCategoria, removivel);
-            }catch(Exception ex)
+                idRetorno = conexao.inserir(novaCategoria);
+            }
+            catch (Exception ex)
             {
-                throw new Exception();
+                throw ex;
             }
             return idRetorno;
+        }
+
+        public List<CategoriaGastoDTO> listarCategorias()
+        {
+            List<CategoriaGastoDTO> categorias;
+            try
+            {
+                categorias = conexao.obterTodos();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return categorias;
+        }
+
+        public CategoriaGastoDTO obterCategoria(int id)
+        {
+            CategoriaGastoDTO categoria;
+            try
+            {
+                categoria = conexao.obterPorId(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return categoria;
+        }
+        public void alterarCategoria(int id, CategoriaGastoDTO categoriaAtualizada)
+        {
+            try
+            {
+                conexao.atualizarPorId(id, categoriaAtualizada);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void removerCategoria(int id)
+        {
+            try
+            {
+                conexao.deletarPorId(id);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }
