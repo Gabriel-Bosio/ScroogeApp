@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ScroogeBackend.Infraestrutura.DAO;
 using ScroogeBackend.Infraestrutura.DTO;
 
 namespace ScroogeBackend.Dominio
 {
-    internal class CategoriaGasto
+    public class CategoriaGasto
     {
         private CategoriaGastoDAO conexao;
         public CategoriaGasto() 

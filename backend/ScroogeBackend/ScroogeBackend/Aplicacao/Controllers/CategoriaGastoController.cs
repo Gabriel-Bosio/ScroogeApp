@@ -45,7 +45,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             return Ok($"Atualizada com sucesso a Categoria de Gasto com ID: {novaCategoria.id}");
         }
 
-        [HttpGet(Name = "GetAllCategoriaGasto")]
+        [HttpGet("Todos", Name = "GetAllCategoriaGasto")]
         public IActionResult GetAllCategoriaGastos()
         {
             CategoriaGasto busca = new CategoriaGasto();
@@ -61,8 +61,8 @@ namespace ScroogeBackend.Aplicacao.Controllers
             return Ok(categorias);
         }
 
-        [HttpGet("Todos", Name = "GetCategoriaGasto")]
-        public IActionResult GetCategoriaGastos(int id)
+        [HttpGet(Name = "GetCategoriaGasto")]
+        public IActionResult GetCategoriaGasto(int id)
         {
             CategoriaGasto busca = new CategoriaGasto();
             CategoriaGastoDTO categoria;
@@ -78,7 +78,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
         }
 
         [HttpDelete("{id}", Name = "DeleteCategoriaGasto")]
-        public IActionResult Delete(int id)
+        public IActionResult DeletarCategoriaGasto(int id)
         {
             CategoriaGasto atualizar = new CategoriaGasto();
             try

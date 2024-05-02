@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
 
 using ScroogeBackend.Infraestrutura.DTO;
 
 namespace ScroogeBackend.Infraestrutura.DAO;
-public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
+public class CategoriaGastoDAO : BaseDAO
 {
-    public override int inserir(CategoriaGastoDTO novaCategoria)
+    public int inserir(CategoriaGastoDTO novaCategoria)
     {
         try
         {
@@ -20,7 +19,7 @@ public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
                     INSERT INTO CategoriaGasto (descricao, limiteCategoria, removivel)
                     VALUES (@descricao, @limiteCategoria, @removivel);";
                 command.Parameters.AddWithValue("@descricao", novaCategoria.descricao);
-                command.Parameters.AddWithValue("@limiteCategoria", novaCategoria.limiteCategoria ?? 0);
+                command.Parameters.AddWithValue("@limiteCategoria", novaCategoria.limiteCategoria);
                 command.Parameters.AddWithValue("@removivel", novaCategoria.removivel ? 1 : 0);
                 command.ExecuteNonQuery();
 
@@ -34,7 +33,7 @@ public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
         }
     }
 
-    public override void atualizarPorId(int id, CategoriaGastoDTO categoriaAlterada)
+    public void atualizarPorId(int id, CategoriaGastoDTO categoriaAlterada)
     {
         try
         {
@@ -55,7 +54,7 @@ public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
         }
     }
 
-    public override CategoriaGastoDTO obterPorId(int id)
+    public CategoriaGastoDTO obterPorId(int id)
     {
         try
         {
@@ -74,7 +73,7 @@ public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
                         {
                             id = reader.GetInt32(0),
                             descricao = reader.GetString(2),
-                            limiteCategoria = reader.IsDBNull(3) ? null : (double?)reader.GetDouble(3),
+                            limiteCategoria = reader.GetDouble(3),
                             removivel = reader.GetBoolean(4)
                         };
                     }
@@ -90,7 +89,7 @@ public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
         }
     }
 
-    public override List<CategoriaGastoDTO> obterTodos()
+    public List<CategoriaGastoDTO> obterTodos()
     {
         List<CategoriaGastoDTO> categorias = new List<CategoriaGastoDTO>();
 
@@ -100,7 +99,7 @@ public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
             {
                 connection.Open();
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM CategoriaGasto";
+                command.CommandText = "SELECT * FROM CategoriaGasto ORDER BY removivel DESC, descricao ASC";
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -110,7 +109,7 @@ public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
                         {
                             id = reader.GetInt32(0),
                             descricao = reader.GetString(2),
-                            limiteCategoria = reader.IsDBNull(3) ? null : (double?)reader.GetDouble(3),
+                            limiteCategoria = reader.GetDouble(3),
                             removivel = reader.GetBoolean(4)
                         });
                     }
@@ -126,7 +125,7 @@ public class CategoriaGastoDAO : BaseDAO<CategoriaGastoDTO>
     }
 
 
-    public override void deletarPorId(int id)
+    public void deletarPorId(int id)
     {
         try
         {
