@@ -67,16 +67,7 @@ namespace ScroogeBackend.Dominio
                     }
                 }
                 controleAtualizado.categoria = ligacaoCategoria.obterCategoria(controleAtualizado.id_categoriaGasto);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            controleAtualizado = calcularGasto(controleAtualizado);
-
-            try
-            {
+                controleAtualizado = calcularGasto(controleAtualizado);
                 conexao.atualizarPorId(controleAtualizado.id, controleAtualizado);
             }
             catch (Exception ex)
@@ -92,6 +83,15 @@ namespace ScroogeBackend.Dominio
             try
             {
                 controles = conexao.obterTodos(mesBase);
+                if (controles.Count == 0 && mesBase.Month == DateTime.Now.Month && mesBase.Year == DateTime.Now.Year)
+                {
+                    List<CategoriaGastoDTO> categorias = ligacaoCategoria.listarCategorias();
+                    foreach (var categoria in categorias)
+                    {
+                        inserirControle(categoria.id, mesBase);
+                    }
+                    controles = conexao.obterTodos(mesBase);
+                }
                 int tam = controles.Count;
                 for (int i = 0; i < tam; i++)
                 {
@@ -109,19 +109,13 @@ namespace ScroogeBackend.Dominio
         {
             double gastoTotal = 0;
 
-            List<GastoDTO> gastos;
-
             try
             {
-                gastos = ligacaoGasto.listarGastos(controle.id_categoriaGasto, controle.mesBase);
+                gastoTotal = ligacaoGasto.somarGastos(controle.id_categoriaGasto, controle.mesBase);
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            foreach (var gasto in gastos)
-            {
-                gastoTotal += gasto.valorGasto;
             }
             if(gastoTotal == 0)
             {

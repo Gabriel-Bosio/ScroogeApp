@@ -44,7 +44,7 @@ namespace ScroogeBackend.Infraestrutura.DAO
                     connection.Open();
                     var command = connection.CreateCommand();
                     command.CommandText = "UPDATE ControleCategoria SET " +
-                                          "limiteCategoria = @limite, gastoAtual = @gastoAtual, mensagem = @mensagem " +
+                                          "limite = @limite, gastoAtual = @gastoAtual, mensagem = @mensagem " +
                                           "WHERE id = @id";
                     command.Parameters.AddWithValue("@limite", controleAlterado.limite);
                     command.Parameters.AddWithValue("@gastoAtual", controleAlterado.gastoAtual);
@@ -67,7 +67,7 @@ namespace ScroogeBackend.Infraestrutura.DAO
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT * FROM ControleGasto WHERE id_categoriaGasto = @id_categoriaGasto and mesBase = @mesBase";
+                    command.CommandText = "SELECT * FROM ControleCategoria WHERE id_categoriaGasto = @id_categoriaGasto and mesBase = @mesBase";
                     command.Parameters.AddWithValue("@id_categoriaGasto", id_controle);
                     command.Parameters.AddWithValue("@mesBase", mesBase);
 
@@ -108,9 +108,9 @@ namespace ScroogeBackend.Infraestrutura.DAO
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT id, id_usuario, limite, gastoAtual, mesBase, mensagem, id_categoriaGasto FROM Gasto " +
+                    command.CommandText = "SELECT con.id, con.id_usuario, con.limite, con.gastoAtual, con.mesBase, con.mensagem, con.id_categoriaGasto FROM ControleCategoria as con " +
                                           "INNER JOIN CategoriaGasto as cg ON cg.id = id_categoriaGasto " +
-                                          "WHERE dataHoraGasto = @mesBase ORDER BY cg.removivel DESC, cg.descricao ASC";
+                                          "WHERE con.mesBase = @mesBase ORDER BY cg.removivel DESC, cg.descricao ASC";
 
                     command.Parameters.AddWithValue("@mesBase", mesBase);
 
@@ -122,9 +122,10 @@ namespace ScroogeBackend.Infraestrutura.DAO
                             {
                                 id = reader.GetInt32(0),
                                 limite = reader.GetDouble(2),
-                                mesBase = reader.GetDateTime(3),
-                                mensagem = reader.GetString(4),
-                                id_categoriaGasto = reader.GetInt32(5)
+                                gastoAtual = reader.GetDouble(3),
+                                mesBase = reader.GetDateTime(4),
+                                mensagem = reader.GetString(5),
+                                id_categoriaGasto = reader.GetInt32(6)
                             });
                         }
                     }

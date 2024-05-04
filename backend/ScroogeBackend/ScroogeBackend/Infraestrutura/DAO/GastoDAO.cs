@@ -92,45 +92,6 @@ namespace ScroogeBackend.Infraestrutura.DAO
             }
         }
 
-        public List<GastoDTO> obterTodos(DateTime inicio, DateTime fim, int id_categoria)
-        {
-            List<GastoDTO> gastos = new List<GastoDTO>();
-
-            try
-            {
-                using (var connection = new SQLiteConnection(_connectionString))
-                {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-                    command.CommandText = "SELECT * FROM Gasto WHERE id_categoriaGasto = @categoria and dataHoraGasto BETWEEN @inicio and @fim " +
-                                          "ORDER BY removivel DESC, descricao ASC";
-                    command.Parameters.AddWithValue("@categoria", id_categoria);
-                    command.Parameters.AddWithValue("@inicio", inicio);
-                    command.Parameters.AddWithValue("@fim", fim);
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            gastos.Add(new GastoDTO
-                            {
-                                id = reader.GetInt32(0),
-                                valorGasto = reader.GetDouble(2),
-                                dataHoraGasto = reader.GetDateTime(3),
-                                id_categoriaGasto = reader.GetInt32(4)
-                            });
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return gastos;
-        }
-
         public List<GastoDTO> obterTodos()
         {
             List<GastoDTO> gastos = new List<GastoDTO>();
@@ -164,6 +125,39 @@ namespace ScroogeBackend.Infraestrutura.DAO
             }
 
             return gastos;
+        }
+
+        public double obterSoma(DateTime inicio, DateTime fim, int id_categoria)
+        {
+            double somaGastos = 0;
+
+            try
+            {
+                using (var connection = new SQLiteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT sum(valorGasto) FROM Gasto " +
+                                          "WHERE id_categoriaGasto = @categoria and dataHoraGasto BETWEEN @inicio and @fim";
+                    command.Parameters.AddWithValue("@categoria", id_categoria);
+                    command.Parameters.AddWithValue("@inicio", inicio);
+                    command.Parameters.AddWithValue("@fim", fim);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if(!reader.IsDBNull(0))
+                                somaGastos = Convert.ToDouble(reader.GetValue(0));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return somaGastos;
         }
     }
 }

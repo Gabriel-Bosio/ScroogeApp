@@ -44,25 +44,20 @@ namespace ScroogeBackend.Dominio
             return idRetorno;
         }
 
-        public List<GastoDTO> listarGastos(int id_categoria, DateTime periodo)
+        public double somarGastos(int id_categoria, DateTime periodo)
         {
-            List<GastoDTO> gastos;
+            double somaGastos = 0;
             DateTime inicio = new DateTime(periodo.Year, periodo.Month, 1, 0, 0, 0);
             DateTime fim = inicio.AddMonths(1).AddSeconds(-1);
             try
             {
-                gastos = conexao.obterTodos(inicio, fim, id_categoria);
-                foreach (var gasto in gastos)
-                {
-                    gasto.categoria = ligacaoCategoria.obterPorId(gasto.id_categoriaGasto);
-                }
-
+                somaGastos = conexao.obterSoma(inicio, fim, id_categoria);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return gastos;
+            return somaGastos;
         }
 
         public List<GastoDTO> listarGastos()
