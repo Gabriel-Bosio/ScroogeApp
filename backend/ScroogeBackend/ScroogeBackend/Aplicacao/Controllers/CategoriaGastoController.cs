@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ScroogeBackend.Aplicacao;
-using ScroogeBackend.Infraestrutura.DTO;
 using ScroogeBackend.Infraestrutura.DAO;
 using ScroogeBackend.Dominio;
 using Microsoft.AspNetCore.Http.Json;
+using ScroogeBackend.Infraestrutura.DTO.CategoriaGasto;
 
 namespace ScroogeBackend.Aplicacao.Controllers
 {
@@ -14,33 +14,43 @@ namespace ScroogeBackend.Aplicacao.Controllers
         private readonly ILogger<CategoriaGastoController> _logger;
 
         [HttpPost(Name = "CreateCategoriaGasto")]
-        public IActionResult InserirCategoriaGasto([FromBody] CategoriaGastoDTO novaCategoria)
+        public IActionResult InserirCategoriaGasto([FromBody] CategoriaGastoPostBody novaCategoria)
         {
             int id = 0;
             try
             {
                 CategoriaGasto categoria = new CategoriaGasto();
-                id = categoria.inserirCategoria(novaCategoria);
+                id = categoria.inserirCategoria(new CategoriaGastoDTO
+                {
+                    descricao = novaCategoria.descricao,
+                    limiteCategoria = novaCategoria.limiteCategoria,
+                    removivel = novaCategoria.removivel
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
 
             return Ok($"Nova Categoria de Gasto adicionada com ID: {id}");
         }
 
         [HttpPut(Name = "UpdateCategoriaGasto")]
-        public IActionResult AtualizarCategoriaGasto([FromBody] CategoriaGastoDTO novaCategoria)
+        public IActionResult AtualizarCategoriaGasto([FromBody] CategoriaGastoPutBody novaCategoria)
         {
             CategoriaGasto atualizar = new CategoriaGasto();
             try
             {
-                atualizar.alterarCategoria(novaCategoria.id, novaCategoria);
+                atualizar.alterarCategoria(novaCategoria.id, new CategoriaGastoDTO
+                {
+                    id = novaCategoria.id,
+                    descricao = novaCategoria.descricao,
+                    limiteCategoria = novaCategoria.limiteCategoria
+                });
             }
             catch(Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Ok($"Atualizada com sucesso a Categoria de Gasto com ID: {novaCategoria.id}");
         }
@@ -56,7 +66,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Ok(categorias);
         }
@@ -87,7 +97,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Ok($"Deletado com sucesso a Categoria de Gasto com ID: {id}");
 

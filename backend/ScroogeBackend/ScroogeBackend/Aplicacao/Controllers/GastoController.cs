@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ScroogeBackend.Aplicacao;
-using ScroogeBackend.Infraestrutura.DTO;
 using ScroogeBackend.Infraestrutura.DAO;
 using ScroogeBackend.Dominio;
 using Microsoft.AspNetCore.Http.Json;
+using ScroogeBackend.Infraestrutura.DTO.Gasto;
 
 namespace ScroogeBackend.Aplicacao.Controllers
 {
@@ -12,17 +12,21 @@ namespace ScroogeBackend.Aplicacao.Controllers
     public class GastoController : ControllerBase
     {
         [HttpPost(Name = "CreateGasto")]
-        public IActionResult InserirGasto([FromBody] GastoDTO novoGasto)
+        public IActionResult InserirGasto([FromBody] GastoPostBody novoGasto)
         {
             int id = 0;
             try
             {
                 Gasto gasto = new Gasto();
-                id = gasto.inserirGasto(novoGasto);
+                id = gasto.inserirGasto(new GastoDTO
+                {
+                    valorGasto = novoGasto.valorGasto,
+                    id_categoriaGasto = novoGasto.id_categoriaGasto
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
 
             return Ok($"Novo Gasto adicionado com ID: {id}");
@@ -39,7 +43,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Ok(gastos);
         }
@@ -54,7 +58,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Ok($"Deletado com sucesso Gasto com ID: {id}");
 

@@ -1,4 +1,6 @@
-﻿namespace ScroogeBackend.Infraestrutura.DTO
+﻿using ScroogeBackend.Infraestrutura.DTO.CategoriaGasto;
+
+namespace ScroogeBackend.Infraestrutura.DTO.ControleCategoria
 {
     public class ControleCategoriaDTO
     {
@@ -9,6 +11,6 @@
         public DateTime mesBase { get; set; }
         public string mensagem { get; set; }
         public int id_categoriaGasto { get; set; }
-        public CategoriaGastoDTO categoria {get; set; }
+        public CategoriaGastoDTO categoria { get; set; }
     }
 }

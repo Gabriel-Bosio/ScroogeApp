@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ScroogeBackend.Dominio;
-using ScroogeBackend.Infraestrutura.DTO;
+using ScroogeBackend.Infraestrutura.DTO.ControleCategoria;
 using System.Xml.Linq;
 
 namespace ScroogeBackend.Aplicacao.Controllers
@@ -21,7 +21,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Ok(controles);
         }

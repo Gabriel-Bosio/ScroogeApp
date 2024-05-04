@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-
-using ScroogeBackend.Infraestrutura.DTO;
+using ScroogeBackend.Infraestrutura.DTO.CategoriaGasto;
 
 namespace ScroogeBackend.Infraestrutura.DAO;
 public class CategoriaGastoDAO : BaseDAO

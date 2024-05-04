@@ -26,7 +26,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
 
             return Ok($"Novo Gasto adicionado com ID: {id}");
@@ -43,7 +43,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Ok(renda);
         }
@@ -58,7 +58,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             return Ok($"Deletada com sucesso Renda com ID: {id}");
 

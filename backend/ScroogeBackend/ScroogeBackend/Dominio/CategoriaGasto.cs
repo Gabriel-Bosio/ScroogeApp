@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ScroogeBackend.Infraestrutura.DAO;
-using ScroogeBackend.Infraestrutura.DTO;
+using ScroogeBackend.Infraestrutura.DTO.CategoriaGasto;
 
 namespace ScroogeBackend.Dominio
 {

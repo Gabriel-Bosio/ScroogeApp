@@ -1,4 +1,4 @@
-﻿using ScroogeBackend.Infraestrutura.DTO;
+﻿using ScroogeBackend.Infraestrutura.DTO.ControleCategoria;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;

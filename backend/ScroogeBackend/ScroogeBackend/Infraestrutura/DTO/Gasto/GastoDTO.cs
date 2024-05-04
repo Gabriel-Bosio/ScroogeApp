@@ -1,4 +1,6 @@
-﻿namespace ScroogeBackend.Infraestrutura.DTO
+﻿using ScroogeBackend.Infraestrutura.DTO.CategoriaGasto;
+
+namespace ScroogeBackend.Infraestrutura.DTO.Gasto
 {
     public class GastoDTO
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ScroogeBackend.Infraestrutura.DAO;
-using ScroogeBackend.Infraestrutura.DTO;
+using ScroogeBackend.Infraestrutura.DTO.CategoriaGasto;
+using ScroogeBackend.Infraestrutura.DTO.ControleCategoria;
 
 namespace ScroogeBackend.Dominio
 {
@@ -51,7 +52,7 @@ namespace ScroogeBackend.Dominio
             return idRetorno;
         }
 
-        public ControleCategoriaDTO alterarControle(int id_categoriaGasto, DateTime mesBase)
+        public void alterarControle(int id_categoriaGasto, DateTime mesBase)
         {
             ControleCategoriaDTO controleAtualizado = new ControleCategoriaDTO();
             try
@@ -61,20 +62,22 @@ namespace ScroogeBackend.Dominio
                 {
                     if(mesBase.Month == DateTime.Now.Month && mesBase.Year == DateTime.Now.Year)
                     {
-                        int novoId = inserirControle(id_categoriaGasto, mesBase);
-                        controleAtualizado = conexao.obterControle(novoId, mesBase);
+                        inserirControle(id_categoriaGasto, mesBase);
+                        controleAtualizado = conexao.obterControle(id_categoriaGasto, mesBase);
                         alterarControle(id_categoriaGasto, mesBase.AddMonths(-1));
                     }
                 }
-                controleAtualizado.categoria = ligacaoCategoria.obterCategoria(controleAtualizado.id_categoriaGasto);
-                controleAtualizado = calcularGasto(controleAtualizado);
-                conexao.atualizarPorId(controleAtualizado.id, controleAtualizado);
+                if(controleAtualizado != null)
+                {
+                    controleAtualizado.categoria = ligacaoCategoria.obterCategoria(controleAtualizado.id_categoriaGasto);
+                    controleAtualizado = calcularGasto(controleAtualizado);
+                    conexao.atualizarPorId(controleAtualizado.id, controleAtualizado);
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return controleAtualizado;
         }
 
         public List<ControleCategoriaDTO> listarControles(DateTime mesBase)
@@ -82,22 +85,17 @@ namespace ScroogeBackend.Dominio
             List<ControleCategoriaDTO> controles;
             try
             {
+                List<CategoriaGastoDTO> categorias = ligacaoCategoria.listarCategorias();
+                categorias = ligacaoCategoria.listarCategorias();
+                foreach (var categoria in categorias)
+                {
+                    alterarControle(categoria.id, mesBase);
+                }
                 controles = conexao.obterTodos(mesBase);
-                if (controles.Count == 0 && mesBase.Month == DateTime.Now.Month && mesBase.Year == DateTime.Now.Year)
+                foreach(var controle in controles)
                 {
-                    List<CategoriaGastoDTO> categorias = ligacaoCategoria.listarCategorias();
-                    foreach (var categoria in categorias)
-                    {
-                        inserirControle(categoria.id, mesBase);
-                    }
-                    controles = conexao.obterTodos(mesBase);
+                    controle.categoria = ligacaoCategoria.obterCategoria(controle.id_categoriaGasto);
                 }
-                int tam = controles.Count;
-                for (int i = 0; i < tam; i++)
-                {
-                    controles[i] = alterarControle(controles[i].id_categoriaGasto, mesBase);
-                }
-
             }
             catch (Exception ex)
             {
@@ -117,7 +115,11 @@ namespace ScroogeBackend.Dominio
             {
                 throw ex;
             }
-            if(gastoTotal == 0)
+            if (controle.limite == 0)
+            {
+                controle.mensagem = $"Não há limite para {controle.categoria.descricao}";
+            }
+            else if(gastoTotal == 0)
             {
                 controle.mensagem = $"Você ainda não gastou em {controle.categoria.descricao} neste mês";
             }
