@@ -1430,23 +1430,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\bb8\\.nuget\\packages\\": {},
+    "C:\\Users\\gabri\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\workspace\\engenhariaSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
+      "projectUniqueName": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
       "projectName": "ScroogeBackend",
-      "projectPath": "C:\\workspace\\engenhariaSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
-      "packagesPath": "C:\\Users\\bb8\\.nuget\\packages\\",
-      "outputPath": "C:\\workspace\\engenhariaSoftware2\\ScroogeApp\\backend\\ScroogeBackend\\ScroogeBackend\\obj\\",
+      "projectPath": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\ScroogeBackend.csproj",
+      "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
+      "outputPath": "C:\\Workspace\\EngDeSoftware2\\ScroogeApp\\Backend\\ScroogeBackend\\ScroogeBackend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\bb8\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1455,6 +1455,8 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1467,11 +1469,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1514,7 +1511,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

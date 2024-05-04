@@ -1,14 +1,13 @@
-﻿using System;
+﻿using ScroogeBackend.Infraestrutura.DTO.Renda;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 
-using ScroogeBackend.Infraestrutura.DTO;
-
 namespace ScroogeBackend.Infraestrutura.DAO
 {
-    public class GastoDAO : BaseDAO
+    public class RendaDAO : BaseDAO
     {
-        public int inserir(GastoDTO novoGasto)
+        public int inserir(RendaDTO novaRenda)
         {
             try
             {
@@ -17,11 +16,10 @@ namespace ScroogeBackend.Infraestrutura.DAO
                     connection.Open();
                     var command = connection.CreateCommand();
                     command.CommandText = @"
-                    INSERT INTO Gasto (valorGasto, dataHoraGasto, id_categoriaGasto)
-                    VALUES (@valorGasto, @dataHoraGasto, @id_categoriaGasto)";
-                    command.Parameters.AddWithValue("@valorGasto", novoGasto.valorGasto);
-                    command.Parameters.AddWithValue("@dataHoraGasto", novoGasto.dataHoraGasto);
-                    command.Parameters.AddWithValue("@id_categoriaGasto", novoGasto.id_categoriaGasto);
+                    INSERT INTO Renda (valorRenda, dataHoraRenda)
+                    VALUES (@valorRenda, @dataHoraRenda)";
+                    command.Parameters.AddWithValue("@valorRenda", novaRenda.valorRenda);
+                    command.Parameters.AddWithValue("@dataHoraRenda", novaRenda.dataHoraRenda);
                     command.ExecuteNonQuery();
 
                     command.CommandText = "SELECT last_insert_rowid()";
@@ -43,7 +41,7 @@ namespace ScroogeBackend.Infraestrutura.DAO
                     connection.Open();
                     var command = connection.CreateCommand();
                     command.CommandText = @"
-                    DELETE FROM Gasto WHERE id = @id";
+                    DELETE FROM Renda WHERE id = @id";
                     command.Parameters.AddWithValue("@id", id);
                     command.ExecuteNonQuery();
                 }
@@ -54,9 +52,9 @@ namespace ScroogeBackend.Infraestrutura.DAO
             }
         }
 
-        
 
-        public GastoDTO obterPorId(int id)
+
+        public RendaDTO obterPorId(int id)
         {
             try
             {
@@ -64,19 +62,18 @@ namespace ScroogeBackend.Infraestrutura.DAO
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT * FROM Gasto WHERE id = @id";
+                    command.CommandText = "SELECT * FROM Renda WHERE id = @id";
                     command.Parameters.AddWithValue("@id", id);
 
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            return new GastoDTO
+                            return new RendaDTO
                             {
                                 id = reader.GetInt32(0),
-                                valorGasto = reader.GetDouble(2),
-                                dataHoraGasto = reader.GetDateTime(3),
-                                id_categoriaGasto = reader.GetInt32(4)
+                                valorRenda = reader.GetDouble(2),
+                                dataHoraRenda = reader.GetDateTime(3)
                             };
                         }
                         else
@@ -92,9 +89,9 @@ namespace ScroogeBackend.Infraestrutura.DAO
             }
         }
 
-        public List<GastoDTO> obterTodos()
+        public List<RendaDTO> obterTodos()
         {
-            List<GastoDTO> gastos = new List<GastoDTO>();
+            List<RendaDTO> rendas = new List<RendaDTO>();
 
             try
             {
@@ -102,18 +99,17 @@ namespace ScroogeBackend.Infraestrutura.DAO
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT * FROM Gasto";
+                    command.CommandText = "SELECT * FROM Renda";
 
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            gastos.Add(new GastoDTO
+                            rendas.Add(new RendaDTO
                             {
                                 id = reader.GetInt32(0),
-                                valorGasto = reader.GetDouble(2),
-                                dataHoraGasto = reader.GetDateTime(3),
-                                id_categoriaGasto = reader.GetInt32(4)
+                                valorRenda = reader.GetDouble(2),
+                                dataHoraRenda = reader.GetDateTime(3)
                             });
                         }
                     }
@@ -124,45 +120,12 @@ namespace ScroogeBackend.Infraestrutura.DAO
                 throw ex;
             }
 
-            return gastos;
-        }
-
-        public double obterSoma(DateTime inicio, DateTime fim, int id_categoria)
-        {
-            double somaGastos = 0;
-
-            try
-            {
-                using (var connection = new SQLiteConnection(_connectionString))
-                {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-                    command.CommandText = "SELECT sum(valorGasto) FROM Gasto " +
-                                          "WHERE id_categoriaGasto = @categoria and dataHoraGasto BETWEEN @inicio and @fim";
-                    command.Parameters.AddWithValue("@categoria", id_categoria);
-                    command.Parameters.AddWithValue("@inicio", inicio);
-                    command.Parameters.AddWithValue("@fim", fim);
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            if(!reader.IsDBNull(0))
-                                somaGastos = Convert.ToDouble(reader.GetValue(0));
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return somaGastos;
+            return rendas;
         }
 
         public double obterSoma()
         {
-            double somaGastos = 0;
+            double somaRenda = 0;
 
             try
             {
@@ -170,13 +133,13 @@ namespace ScroogeBackend.Infraestrutura.DAO
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT sum(valorGasto) FROM Gasto";
+                    command.CommandText = "SELECT sum(valorRenda) FROM Renda";
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             if (!reader.IsDBNull(0))
-                                somaGastos = Convert.ToDouble(reader.GetValue(0));
+                                somaRenda = Convert.ToDouble(reader.GetValue(0));
                         }
                     }
                 }
@@ -186,7 +149,7 @@ namespace ScroogeBackend.Infraestrutura.DAO
                 throw ex;
             }
 
-            return somaGastos;
+            return somaRenda;
         }
     }
 }

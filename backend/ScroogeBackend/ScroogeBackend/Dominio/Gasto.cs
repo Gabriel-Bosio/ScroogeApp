@@ -60,6 +60,20 @@ namespace ScroogeBackend.Dominio
             return somaGastos;
         }
 
+        public double somarGastos()
+        {
+            double somaGastos = 0;
+            try
+            {
+                somaGastos = conexao.obterSoma();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return somaGastos;
+        }
+
         public List<GastoDTO> listarGastos()
         {
             List<GastoDTO> gastos;

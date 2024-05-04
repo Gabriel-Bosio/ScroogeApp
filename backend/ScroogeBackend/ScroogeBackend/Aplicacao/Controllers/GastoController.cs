@@ -28,22 +28,6 @@ namespace ScroogeBackend.Aplicacao.Controllers
             return Ok($"Novo Gasto adicionado com ID: {id}");
         }
 
-        [HttpGet(Name = "GetGasto")]
-        public IActionResult GetGasto(int id)
-        {
-            Gasto busca = new Gasto();
-            GastoDTO gasto;
-            try
-            {
-                gasto = busca.obterGasto(id);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-            return Ok(gasto);
-        }
-
         [HttpGet("Todos", Name = "GetAllGastos")]
         public IActionResult GetAllGastos()
         {
