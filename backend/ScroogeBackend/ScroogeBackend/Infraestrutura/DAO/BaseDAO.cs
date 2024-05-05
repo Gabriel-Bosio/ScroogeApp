@@ -5,6 +5,6 @@ namespace ScroogeBackend.Infraestrutura.DAO
 {
     public abstract class BaseDAO
     {
-        public readonly string _connectionString = @"Data Source=C:\Workspace\EngDeSoftware2\ScroogeApp\backend\ScroogeApp.db";
+        public readonly string _connectionString = @"Data Source=C:\workspace\engenhariaSoftware2\ScroogeApp\backend\ScroogeApp.db";
     }
 }

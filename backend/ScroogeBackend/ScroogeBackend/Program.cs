@@ -2,7 +2,21 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(MyAllowSpecificOrigins,
+                          policy =>
+                          {
+                              policy.WithOrigins("http://127.0.0.1:5500",
+                                                  "https://gabriel-bosio.github.io/ScroogeApp")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                          });
+        });
 
         // Add services to the container.
 
@@ -19,6 +33,8 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseCors(MyAllowSpecificOrigins);
 
         app.UseHttpsRedirection();
 
