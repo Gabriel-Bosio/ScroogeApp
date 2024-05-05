@@ -12,7 +12,8 @@ internal class Program
                           policy =>
                           {
                               policy.WithOrigins("http://127.0.0.1:5500",
-                                                  "https://gabriel-bosio.github.io/ScroogeApp")
+                                                  "https://gabriel-bosio.github.io/ScroogeApp",
+                                                  "https://gabriel-bosio.github.io")
                                                   .AllowAnyHeader()
                                                   .AllowAnyMethod();
                           });
