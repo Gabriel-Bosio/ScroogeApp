@@ -24,7 +24,7 @@ namespace ScroogeBackend.Aplicacao.Controllers
                 {
                     descricao = novaCategoria.descricao,
                     limiteCategoria = novaCategoria.limiteCategoria,
-                    removivel = novaCategoria.removivel
+                    removivel = true
                 });
             }
             catch (Exception ex)

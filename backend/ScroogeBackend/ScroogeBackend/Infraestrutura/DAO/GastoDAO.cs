@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using ScroogeBackend.Infraestrutura.DTO.CategoriaGasto;
 using ScroogeBackend.Infraestrutura.DTO.Gasto;
 
 namespace ScroogeBackend.Infraestrutura.DAO
@@ -53,7 +54,25 @@ namespace ScroogeBackend.Infraestrutura.DAO
             }
         }
 
-        
+        public void atualizarPorId(int id_categoriaAntiga, int id_categoriaNova)
+        {
+            try
+            {
+                using (var connection = new SQLiteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Gasto SET id_CategoriaGasto = @id_categoriaNova WHERE id_CategoriaGasto = @id_categoriaAntiga";
+                    command.Parameters.AddWithValue("@id_categoriaNova", id_categoriaNova);
+                    command.Parameters.AddWithValue("@id_categoriaAntiga", id_categoriaAntiga);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public GastoDTO obterPorId(int id)
         {

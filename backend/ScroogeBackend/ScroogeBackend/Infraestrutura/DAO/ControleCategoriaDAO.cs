@@ -138,5 +138,24 @@ namespace ScroogeBackend.Infraestrutura.DAO
 
             return controles;
         }
+
+        public void deletarPorCategoria(int id_categoriaGasto)
+        {
+            try
+            {
+                using (var connection = new SQLiteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "DELETE FROM ControleCategoria WHERE id_categoriaGasto = @id_categoriaGasto";
+                    command.Parameters.AddWithValue("@id_categoriaGasto", id_categoriaGasto);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

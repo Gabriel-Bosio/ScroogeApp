@@ -88,6 +88,32 @@ public class CategoriaGastoDAO : BaseDAO
         }
     }
 
+    public int obterOutros()
+    {
+        try
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT id FROM CategoriaGasto WHERE removivel = 0";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return reader.GetInt32(0);
+                    }
+                    else return 0;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
     public List<CategoriaGastoDTO> obterTodos()
     {
         List<CategoriaGastoDTO> categorias = new List<CategoriaGastoDTO>();
@@ -143,7 +169,5 @@ public class CategoriaGastoDAO : BaseDAO
             throw ex;
         }
         
-    }
-
-    
+    }    
 }

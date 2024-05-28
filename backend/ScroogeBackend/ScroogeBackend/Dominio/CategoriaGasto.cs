@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ScroogeBackend.Infraestrutura.DAO;
 using ScroogeBackend.Infraestrutura.DTO.CategoriaGasto;
+using ScroogeBackend.Dominio;
 
 namespace ScroogeBackend.Dominio
 {
@@ -31,6 +32,7 @@ namespace ScroogeBackend.Dominio
             List<CategoriaGastoDTO> categorias;
             try
             {
+                validarOutros();
                 categorias = conexao.obterTodos();
             }
             catch (Exception ex)
@@ -69,7 +71,34 @@ namespace ScroogeBackend.Dominio
         {
             try
             {
+                Gasto ligacaoGasto = new Gasto();
+                ControleCategoria ligacaoControle = new ControleCategoria();
+                int idOutros = validarOutros();
+                ligacaoGasto.alterarGasto(id, idOutros);
+                ligacaoControle.deletarControles(id);
                 conexao.deletarPorId(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private int validarOutros()
+        {
+            try
+            {
+                int idOutros = conexao.obterOutros();
+                if (idOutros == 0)
+                {
+                    idOutros = conexao.inserir(new CategoriaGastoDTO
+                    {
+                        descricao = "Outros",
+                        limiteCategoria = 0,
+                        removivel = false
+                    });
+                }
+                return idOutros;
             }
             catch(Exception ex)
             {

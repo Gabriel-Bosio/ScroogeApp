@@ -120,5 +120,17 @@ namespace ScroogeBackend.Dominio
                 throw ex;
             }
         }
+
+        public void alterarGasto(int id_categoriaAntiga, int id_categoriaNova)
+        {
+            try
+            {
+                conexao.atualizarPorId(id_categoriaAntiga, id_categoriaNova);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

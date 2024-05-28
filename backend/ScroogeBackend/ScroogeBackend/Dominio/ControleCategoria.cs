@@ -60,14 +60,14 @@ namespace ScroogeBackend.Dominio
                 controleAtualizado = conexao.obterControle(id_categoriaGasto, mesBase);
                 if (controleAtualizado == null)
                 {
-                    if(mesBase.Month == DateTime.Now.Month && mesBase.Year == DateTime.Now.Year)
+                    if (mesBase.Month == DateTime.Now.Month && mesBase.Year == DateTime.Now.Year)
                     {
                         inserirControle(id_categoriaGasto, mesBase);
                         controleAtualizado = conexao.obterControle(id_categoriaGasto, mesBase);
                         alterarControle(id_categoriaGasto, mesBase.AddMonths(-1));
                     }
                 }
-                if(controleAtualizado != null)
+                if (controleAtualizado != null)
                 {
                     controleAtualizado.categoria = ligacaoCategoria.obterCategoria(controleAtualizado.id_categoriaGasto);
                     controleAtualizado = calcularGasto(controleAtualizado);
@@ -132,6 +132,18 @@ namespace ScroogeBackend.Dominio
             controle.gastoAtual = gastoTotal;
 
             return controle;
+        }
+
+        public void deletarControles(int id_categoria)
+        {
+            try
+            {
+                conexao.deletarPorCategoria(id_categoria);
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
         }
     }
 }
