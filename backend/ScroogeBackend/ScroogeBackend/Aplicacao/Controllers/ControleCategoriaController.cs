@@ -5,6 +5,8 @@ using System.Xml.Linq;
 
 namespace ScroogeBackend.Aplicacao.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ControleCategoriaController : ControllerBase
     {
         private readonly ILogger<ControleCategoriaController> _logger;
