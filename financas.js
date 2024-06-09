@@ -209,9 +209,8 @@ async function deleteCategoria(id_categoria) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
 
-        $('#modalSucessoDeletarCategoria').modal('show');
     } catch (error) {
-        $('#modalErroDeletarCategoria').modal('show');
+        console.log(error);
     }
 }
 

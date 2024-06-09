@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ScroogeBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a47b3d2c0bc12379991310616e34f387af8b249f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c9c7deca172e3d705dbda143a924e39da3d312b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ScroogeBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ScroogeBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
