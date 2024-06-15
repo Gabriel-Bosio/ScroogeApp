@@ -13,7 +13,7 @@
     <link rel="manifest" href="manifest.webmanifest">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="icon" href="./assets/img/logo_png.png" type="image/png">
-     <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -29,8 +29,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="valor" class="form-label">Digite um valor:</label>
-                    <input class="form-control" id="input-valor" type="number" placeholder="0.00" aria-label="0.00" required>
+                    <label for="valor" class="form-label">Digite um valor: <span style="color: red;">* (obrigatório)</span></label>
+                    <input class="form-control" id="input-valor" type="text" placeholder="99.99" aria-label="99.99"
+                        required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-bs-dismiss="modal"
@@ -51,11 +52,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="valor" class="form-label">Digite um valor:</label>
-                    <input id="inputValorGasto" class="form-control" type="number" placeholder="0.00" aria-label="0.00">
-                    <label for="categoria" class="form-label">Selecione uma categoria:</label>
-                    <select id="selectCategoriaGasto" class="form-select" aria-label="Default select example">
-                        <option selected>Selecione uma opção</option>
+                    <label for="valor" class="form-label">Digite um valor: <span style="color: red;">* (obrigatório)</span></label>
+                    <input id="inputValorGasto" class="form-control" type="text" placeholder="99.99" aria-label="99.99" required>
+                    <label for="categoria" class="form-label">Selecione uma categoria: <span style="color: red;">* (obrigatório)</span></label>
+                    <select id="selectCategoriaGasto" class="form-select" aria-label="Default select example" required>
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -78,10 +78,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="valor" class="form-label">Digite o nome:</label>
-                    <input id="inputDescricao" class="form-control" type="text" placeholder="Exemplo" aria-label="Exemplo">
-                    <label for="valor" class="form-label">Digite um limite:</label>
-                    <input id="inputLimite" class="form-control" type="number" placeholder="0.00" aria-label="0.00">
+                    <label for="valor" class="form-label">Digite o nome: <span style="color: red;">* (obrigatório)</span></label>
+                    <input id="inputDescricao" class="form-control" type="text" placeholder="Exemplo"
+                        aria-label="Exemplo" required>
+                    <label for="valor" class="form-label" style="width: 100%;">Digite um limite: <span style="color: red;">* (obrigatório)</span></label>
+                    <input id="inputLimite" class="form-control" type="text" placeholder="99.99" aria-label="99.99" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-bs-dismiss="modal"
@@ -93,9 +94,19 @@
         </div>
     </div>
 
+    <!-- Container dos modais de edição -->
+    <div id="modalEditar-container">
+
+    </div>
+
+    <!-- Container dos modais de exclusão -->
+    <div id="modalExcluir-container">
+
+    </div>
+
     <!-- Modal de erro -->
     <div class="modal fade" id="modalErro" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -104,6 +115,296 @@
                 </div>
                 <div class="modal-body">
                     Ocorreu um erro, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Erros Categoria e Gasto -->
+    <!-- Modal de erro limite não pode ser zero -->
+    <div class="modal fade" id="modalErroLimiteNaoPodeSerZero" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O limite não pode ser zero, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro limite não pode ser negativo -->
+    <div class="modal fade" id="modalErroLimiteNaoPodeSerNegativo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O limite não pode ser um número negativo, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro nome não pode ser número -->
+    <div class="modal fade" id="modalErroNomeNaoPodeSerNumero" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O nome não pode ser um número, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro limite não pode ser texto -->
+    <div class="modal fade" id="modalErroLimiteNaoPodeSerTexto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O limite é inválido, não pode ser um texto, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro campos obrigatorios vazios -->
+    <div class="modal fade" id="modalErroCamposObrigatoriosVazios" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Preencha os campos obrigatórios e tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro valor do gasto não pode ser zero -->
+    <div class="modal fade" id="modalErroValorGastoNaoPodeSerZero" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O valor do gasto não pode ser zero, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro valor do gasto não pode ser negativo -->
+    <div class="modal fade" id="modalErroValorGastoNaoPodeSerNegativo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O Valor do gasto não pode ser negativo, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro nenhuma categoria selecionada -->
+    <div class="modal fade" id="modalErroNenhumaCategoriaSelecionada" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O campo para selecionar uma categoria está vazio, selecione uma categoria e tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro valor do gasto não pode ser texto -->
+    <div class="modal fade" id="modalErroValorGastoNaoPodeSerTexto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O valor do gasto é inválido, não pode ser um texto, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro campo nome vazio -->
+    <div class="modal fade" id="modalErroCampoNomeVazio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O campo "nome" está vazio, insira um nome para a categoria e tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro campo limite vazio -->
+    <div class="modal fade" id="modalErroCampoLimiteVazio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O campo "limite" está vazio, insira um limite para a categoria e tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro campo valor do gasto vazio -->
+    <div class="modal fade" id="modalErroCampoValorGastoVazio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O campo "valor" está vazio, insira um valor para o gasto e tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Erros Renda -->
+    <!-- Modal de erro campo valor da renda não pode ser zero -->
+    <div class="modal fade" id="modalErroCampoValorRendaNaoPodeSerZero" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O valor não pode ser zero, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro campo valor da renda não pode ser negativo -->
+    <div class="modal fade" id="modalErroCampoValorRendaNaoPodeSerNegativo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O valor não pode ser negativo, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro campo valor da renda não pode ser texto -->
+    <div class="modal fade" id="modalErroCampoValorRendaNaoPodeSerTexto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O valor é inválido, não pode ser um texto, tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro campo valor da renda não pode ser vazio -->
+    <div class="modal fade" id="modalErroCampoValorRendaNaoPodeSerVazio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    O campo "valor" está vazio, insira um valor e tente novamente por favor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de erro deletar categoria -->
+    <div class="modal fade" id="modalErroDeletarCategoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Erro!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Não foi possível deletar a Categoria, tente novamente.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de sucesso deletar categoria -->
+    <div class="modal fade" id="modalSucessoDeletarCategoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalErroLabel">Sucesso!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    A Categoria foi deletada com êxito!
                 </div>
             </div>
         </div>
@@ -150,36 +451,30 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title" style="color: #2c2c2c;">Saldo:</h4>
-                                <p id="paragrafo-saldo" class="blockquote mb-2" style="color: #2c2c2c;">R$ 0.00</p>
-                            <div class="btn-group">
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#inserirRenda"
-                                    style="background-color: #98DD78; color: #2c2c2c; border: 2px solid #2c2c2c;">Inserir
-                                    Renda</button>
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#inserirGasto"
-                                    style="background-color: #98DD78; color: #2c2c2c; border: 2px solid #2c2c2c;">Inserir
-                                    Gasto</button>
-                                <button type="button" class="btn" data-bs-toggle="modal"
-                                    data-bs-target="#criarCategoria"
-                                    style="background-color: #98DD78; color: #2c2c2c; border: 2px solid #2c2c2c;">Criar
-                                    Categoria</button>
-                            </div>
+                            <p id="paragrafo-saldo" class="blockquote mb-2" style="color: #2c2c2c;">R$ 0.00</p>
                         </div>
                     </div>
-                    <div class="card" style="margin: 30px 0 0 0;">
+                    <div class="text-center" style="margin: 15px 0 0 0;">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#inserirRenda"
+                                style="background-color: #98DD78; color: #2c2c2c; border: 2px solid #2c2c2c; height: 60px;">Inserir
+                                Renda</button>
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#inserirGasto"
+                                style="background-color: #98DD78; color: #2c2c2c; border: 2px solid #2c2c2c; height: 60px;">Inserir
+                                Gasto</button>
+                        </div>
+                    </div>
+                    <div class="text-center" style="margin-top: 15px; margin-bottom: 15px;">
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#criarCategoria"
+                            style="background-color: #98DD78; color: #2c2c2c; border: 2px solid #2c2c2c; height: 60px;">
+                            Criar Categoria
+                        </button>
+                    </div>
+                    <div class="card" style="margin: 15px 0 15px 0;">
                         <div class="card-body">
                             <h4 class="card-title" style="color: #2c2c2c;">Categorias:</h4>
-                            <div class="table-responsive">
-                                <table  class="table table-striped align-middle">
-                                    <thead>
-                                        <tr class="table" style="color: #98DD78;background-color: #2c2c2c;">
-                                            <th scope="col" style="border: 2px solid #2c2c2c;">Nome:</th>
-                                            <th scope="col" style="border: 2px solid #2c2c2c;">Limite:</th>
-                                            <th scope="col" style="border: 2px solid #2c2c2c;">Gasto:</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tabela-categorias">
-                                    </tbody>
-                                </table>
+                            <div id="cards-container">
+
                             </div>
                         </div>
                     </div>
