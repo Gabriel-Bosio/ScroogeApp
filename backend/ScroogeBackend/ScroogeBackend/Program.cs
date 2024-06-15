@@ -33,7 +33,7 @@ internal class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-
+        }
         app.UseCors(MyAllowSpecificOrigins);
 
         app.UseHttpsRedirection();
